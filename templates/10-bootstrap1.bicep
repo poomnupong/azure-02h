@@ -44,7 +44,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {
 
 // main log analytics workspace for everything
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2020-10-01' = {
-  name: '${RG}-${REGION}-law-01'
+  name: '${RG}-${REGION}-law'
   location: resourceGroup().location
   properties: {
     sku: {
@@ -55,7 +55,7 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2020-10
 
 // main vnet for everything in bootstrap1
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
-  name: '${RG}-${REGION}-vnet-01'
+  name: '${RG}-${REGION}-vnet'
   location: resourceGroup().location
   properties: {
     addressSpace: {
@@ -65,13 +65,13 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
     }
     subnets: [
       {
-        name: '${RG}-${REGION}-snet-01'
+        name: '${RG}-${REGION}-1-snet'
         properties: {
           addressPrefix: '10.0.0.0/27'
         }
       }
       {
-        name: '${RG}-${REGION}-snet-02'
+        name: '${RG}-${REGION}-2-snet'
         properties: {
           addressPrefix: '10.0.0.32/27'
         }
