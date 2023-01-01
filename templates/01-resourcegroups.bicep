@@ -22,6 +22,6 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = [for RG
   name: RG_NAME
   location: REGION
   tags:{
-    'branch': BRANCH  
+    branch: BRANCH  
   }
 }]
