@@ -8,7 +8,7 @@ on:
       - prod
 
 env:
-  SUBSCRIPTION_ID: f7741b3d-d2ac-4be0-8083-e8dc60675c97
+  SUBSCRIPTION_ID: abcfb30c-2430-42eb-9745-82bfee455fef
   REGION: southcentralus
   PREFIX: pn
 
