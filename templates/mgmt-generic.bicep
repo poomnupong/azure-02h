@@ -1,3 +1,4 @@
+// management resource group
 
 targetScope = 'resourceGroup'
 
