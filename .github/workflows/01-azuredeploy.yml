@@ -13,41 +13,67 @@ env:
   PREFIX: pn
 
 jobs:
-  Create-Resource-Groups:
-    name: Create Resource Groups
+  Main-Deploy:
+    name: Main Deploy
     runs-on: ubuntu-latest
     steps:
-      #- name: DEBUG - see GITHUB_REF
-      #  run: echo "variable ${GITHUB_REF}"
-      #- run: echo "GITHUB_REF_NAME = ${GITHUB_REF_NAME}"
-
-      # extract branch name into GitHub environment BRANCH
       - name: Set env.BRANCH
-      #  run: echo "BRANCH=$(echo $GITHUB_REF_NAME)" >> $GITHUB_ENV
         run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
-
-      # DEBUG: show branch name
-      - name: DEBUG - Extract branch name
-        shell: bash
-        run: echo "This is ${{ env.BRANCH }}"
-      #  id: extract_branch
-
       - uses: actions/checkout@v2
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Create resource groups
+      - name: Deploy resources
         uses: Azure/arm-deploy@v1
         with:
           scope: subscription
           subscriptionId: ${{ env.SUBSCRIPTION_ID }}
           region: ${{ env.REGION }}
           # deploymentMode: Complete
-          template: ./templates/01-resourcegroups.bicep
+          template: ./templates/00maindeploy.bicep
           parameters:
             BRANCH=${{ env.BRANCH }}
             REGION=${{ env.REGION }}
             PREFIX=${{ env.PREFIX }}
+      
+
+
+
+  # Create-Resource-Groups:
+  #   name: Create Resource Groups
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     #- name: DEBUG - see GITHUB_REF
+  #     #  run: echo "variable ${GITHUB_REF}"
+  #     #- run: echo "GITHUB_REF_NAME = ${GITHUB_REF_NAME}"
+
+  #     # extract branch name into GitHub environment BRANCH
+  #     - name: Set env.BRANCH
+  #     #  run: echo "BRANCH=$(echo $GITHUB_REF_NAME)" >> $GITHUB_ENV
+  #       run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
+
+  #     # DEBUG: show branch name
+  #     - name: DEBUG - Extract branch name
+  #       shell: bash
+  #       run: echo "This is ${{ env.BRANCH }}"
+  #     #  id: extract_branch
+
+      # - uses: actions/checkout@v2
+      # - uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # - name: Create resource groups
+      #   uses: Azure/arm-deploy@v1
+      #   with:
+      #     scope: subscription
+      #     subscriptionId: ${{ env.SUBSCRIPTION_ID }}
+      #     region: ${{ env.REGION }}
+      #     # deploymentMode: Complete
+      #     template: ./templates/01-resourcegroups.bicep
+      #     parameters:
+      #       BRANCH=${{ env.BRANCH }}
+      #       REGION=${{ env.REGION }}
+      #       PREFIX=${{ env.PREFIX }}
 
   # Deploy_to_bootstrap1-rg:
   #   name: Deploy to bootstrap1-rg
