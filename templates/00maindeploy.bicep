@@ -18,7 +18,7 @@ module MOD_MGMT1 'mgmt-generic.bicep' = {
   name: 'deploy-mgmt1'
   scope: MGMT1_RG
   params: {
-    PREFIX: PREFIX
+    PREFIX: 'mgmt1'
     REGION: REGION
   }
 }
