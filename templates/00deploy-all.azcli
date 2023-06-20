@@ -23,19 +23,19 @@ az deployment group create --resource-group $RGNAME --template-file 00maindeploy
 #   --parameters PREFIX="pn" BRANCH="dev01" REGION="southcentralus"
 
 
-# plans
-# singular template
-- generic nva dual nic
-  - cloudinit: frr, ip_forward
-  - nic ip forward
-  - public ip by default on outside intf
-- generic linux vm
-  - varient: nestedvirt
-- generic windows server vm
-  - varient: nestedvirt
-- generic windows 11 vm
+# # plans
+# # singular template
+# - generic nva dual nic
+#   - cloudinit: frr, ip_forward
+#   - nic ip forward
+#   - public ip by default on outside intf
+# - generic linux vm
+#   - varient: nestedvirt
+# - generic windows server vm
+#   - varient: nestedvirt
+# - generic windows 11 vm
 
-# composite template
-- skytaplz-type1 (single vnet)
-- skytaplz-type2 (hub and spoke)
-- skytaplz-type3 (secure vhub)
+# # composite template
+# - skytaplz-type1 (single vnet)
+# - skytaplz-type2 (hub and spoke)
+# - skytaplz-type3 (secure vhub)
