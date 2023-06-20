@@ -1,28 +1,35 @@
 // deploy all necessary resource groups
 
-targetScope = 'subscription'
+targetScope = 'resourceGroup'
 
 param PREFIX string = 'dummy'
 param BRANCH string
-param REGION string = 'southcentralus'
+param REGION string = resourceGroup().location
 var REGION_SUFFIX = REGION == 'southcentralus' ? 'scus' : REGION
 
 //== resource group for mgmt1
-resource MGMT1_RG 'Microsoft.Resources/resourceGroups@2022-09-01' = {
-  name: '${PREFIX}-${BRANCH}-mgmt1-${REGION_SUFFIX}-rg'
-  location: REGION
-}
+// resource MGMT1_RG 'Microsoft.Resources/resourceGroups@2022-09-01' = {
+//   name: '${PREFIX}-${BRANCH}-mgmt1-${REGION_SUFFIX}-rg'
+//   location: REGION
+// }
 
 //== resources for mgmt1
 module MOD_MGMT1 'mgmt-generic.bicep' = {
   name: 'deploy-mgmt1'
-  scope: MGMT1_RG
   params: {
     PREFIX: 'mgmt1'
     REGION: REGION
   }
 }
 
+// module MOD_MGMT2 'mgmt-generic.bicep' = {
+//   name: 'deploy-mgmt2'
+//   params: {
+//     PREFIX: 'mgmt2'
+//     REGION: REGION
+//   }
+// }
+// 
 // // specify all resource group names here in array so we can loop through them a
 // var RG_ARRAY = [
 //   '${PREFIX}-${BRANCH}-mgmt1-${REGION_SUFFIX}-rg'
@@ -44,6 +51,3 @@ module MOD_MGMT1 'mgmt-generic.bicep' = {
 // }]
 
 // TODO: REWRITE - create RG and then call module with RG scope
-
-
-
