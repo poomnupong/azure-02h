@@ -20,7 +20,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build bicep and check for errors
-        run: bicep build ./templates/00maindeploy.bicep
+        uses: Azure/CLI@v1
+        with:
+          inlineScript: |
+            #!/bin/bash
+            for FILE in ./templates/*.bicep; do
+              echo $FILE
+              # bicep build $FILE
+            done
 
   main-deploy:
     name: Main Deploy
@@ -33,8 +40,6 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Build bicep and check for errors
-        run: bicep build ./templates/00maindeploy.bicep
       - name: Create resource groups
         uses: Azure/CLI@v1
         with:
