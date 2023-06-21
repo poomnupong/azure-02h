@@ -33,7 +33,19 @@ jobs:
               # az group create --name "${{ env.PREFIX }}-${{ env.BRANCH }}-${BASENAME}-${{ env.REGION }}-rg" --location ${{ env.REGION }}
               az bicep build --file $FILENAME
             done
-      
+
+# NOTE: reusable workflow with loops is either complex or not available
+# idea is to split into three layers: management, infra, and endpoints
+# a layer can depends on the previous layer
+# resource groups in each layer are independent of each other and can be deployed in parallel
+# will attempt to generalize deployment job so each workflow can be called with minimum parameters
+# next: code and test generalized deployment job for workflow call
+
+  # management-deploy:
+  
+  # infra-deploy:
+
+  # endpoints-deploy:
 
   # main-deploy:
   #   name: Main Deploy
