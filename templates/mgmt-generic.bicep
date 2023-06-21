@@ -1,6 +1,6 @@
 // management resource group
 
-param PREFIX string
+param PREFIX string = ""
 // param BRANCH string
 param REGION string = resourceGroup().location
 var REGION_SUFFIX = REGION == 'southcentralus' ? 'scus' : REGION

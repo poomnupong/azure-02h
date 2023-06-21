@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PREFIX="pn"
-BRANCH="dev01"
+BRANCH="dev1"
 REGION="southcentralus"
 
 # if REGION contains southcentralus, replace with scus
@@ -39,3 +39,7 @@ az deployment group create --resource-group $RGNAME --template-file 00maindeploy
 # - skytaplz-type1 (single vnet)
 # - skytaplz-type2 (hub and spoke)
 # - skytaplz-type3 (secure vhub)
+
+
+# workflow design
+# 

@@ -1,8 +1,11 @@
-// deploy all necessary resource groups
+// 000 launchpad - resource group
+// basically a launchpad, minimum static artifacts such as storage account for cloudshell, rsa key for ssh
 
 targetScope = 'resourceGroup'
 
 param PREFIX string = 'dummy'
+
+@description('required. up to four-letter code for environment being deployed.')
 param BRANCH string
 param REGION string = resourceGroup().location
 var REGION_SUFFIX = REGION == 'southcentralus' ? 'scus' : REGION
