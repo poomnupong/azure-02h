@@ -31,7 +31,7 @@ jobs:
               echo $BASENAME
               # create a resource group for each bicep file
               # az group create --name "${{ env.PREFIX }}-${{ env.BRANCH }}-${BASENAME}-${{ env.REGION }}-rg" --location ${{ env.REGION }}
-              bicep build $FILENAME
+              az bicep build $FILENAME
             done
       
 
