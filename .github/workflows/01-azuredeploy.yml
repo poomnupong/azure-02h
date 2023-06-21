@@ -18,36 +18,43 @@ jobs:
     name: Build - check bicep
     runs-on: ubuntu-latest
     steps:
+      - name: Set env.BRANCH 
+        run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
       - uses: actions/checkout@v2
       - name: Build bicep and check for errors
         uses: Azure/CLI@v1
         with:
           inlineScript: |
             #!/bin/bash
-            for FILE in ./templates/*.bicep; do
-              echo $FILE
-              # bicep build $FILE
+            for FILENAME in ./templates/*.bicep; do
+              BASENAME=$(basename $FILE .bicep)
+              echo $BASENAME
+              # create a resource group for each bicep file
+              az group create --name "${{ env.PREFIX }}-${{ env.BRANCH }}-${BASENAME}-${{ env.REGION }}-rg" --location ${{ env.REGION }}
+              bicep build $FILENAME
             done
+      
 
-  main-deploy:
-    name: Main Deploy
-    runs-on: ubuntu-latest
-    steps:
-      # get set BRANCH variable with branch name to be used in resource naming
-      - name: Set env.BRANCH 
-        run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
-      - uses: actions/checkout@v2
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Create resource groups
-        uses: Azure/CLI@v1
-        with:
-          inlineScript: |
-            #!/bin/bash
-            for FILE in ./templates/*.bicep; do
-            echo $FILE
-            # az group create --name "${{ env.PREFIX }}-${{ env.BRANCH }}-bootstrap1-${{ env.REGION }}-rg" --location ${{ env.REGION }}
+  # main-deploy:
+  #   name: Main Deploy
+  #   needs: [check-bicep]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     # get set BRANCH variable with branch name to be used in resource naming
+  #     - name: Set env.BRANCH 
+  #       run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
+  #     - uses: actions/checkout@v2
+  #     - uses: azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #     - name: Create resource groups
+  #       uses: Azure/CLI@v1
+  #       with:
+  #         inlineScript: |
+  #           #!/bin/bash
+  #           for FILE in ./templates/*.bicep; do
+  #           echo $FILE
+  #           # az group create --name "${{ env.PREFIX }}-${{ env.BRANCH }}-bootstrap1-${{ env.REGION }}-rg" --location ${{ env.REGION }}
       # - name: Deploy resources
       #   uses: Azure/arm-deploy@v1
       #   with:

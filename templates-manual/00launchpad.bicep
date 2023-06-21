@@ -17,13 +17,13 @@ var REGION_SUFFIX = REGION == 'southcentralus' ? 'scus' : REGION
 // }
 
 //== resources for mgmt1
-module MOD_MGMT1 'mgmt-generic.bicep' = {
-  name: 'deploy-mgmt1'
-  params: {
-    PREFIX: 'mgmt1'
-    REGION: REGION
-  }
-}
+// module MOD_MGMT1 'mgmt-generic.bicep' = {
+//   name: 'deploy-mgmt1'
+//   params: {
+//     PREFIX: 'mgmt1'
+//     REGION: REGION
+//   }
+// }
 
 // module MOD_MGMT2 'mgmt-generic.bicep' = {
 //   name: 'deploy-mgmt2'

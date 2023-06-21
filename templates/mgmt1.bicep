@@ -1,12 +1,11 @@
 // management resource group
 
-param PREFIX string = ""
+param PREFIX string = 'z'
 // param BRANCH string
 param REGION string = resourceGroup().location
-var REGION_SUFFIX = REGION == 'southcentralus' ? 'scus' : REGION
 
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-07-01' = {
-  name: '${PREFIX}-${REGION_SUFFIX}-vnet'
+  name: '${PREFIX}-${REGION}-vnet'
   location: REGION
   properties: {
     addressSpace: {
