@@ -27,10 +27,10 @@ jobs:
           inlineScript: |
             #!/bin/bash
             for FILENAME in ./templates/*.bicep; do
-              BASENAME=$(basename $FILE .bicep)
+              BASENAME=$(basename $FILENAME .bicep)
               echo $BASENAME
               # create a resource group for each bicep file
-              az group create --name "${{ env.PREFIX }}-${{ env.BRANCH }}-${BASENAME}-${{ env.REGION }}-rg" --location ${{ env.REGION }}
+              # az group create --name "${{ env.PREFIX }}-${{ env.BRANCH }}-${BASENAME}-${{ env.REGION }}-rg" --location ${{ env.REGION }}
               bicep build $FILENAME
             done
       
