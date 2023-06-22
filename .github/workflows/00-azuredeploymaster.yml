@@ -35,6 +35,7 @@ jobs:
             done
 
   l1-call-workflow-mgmt:
+    needs: [check-bicep]
     uses: ./.github/workflows/10-generalrgdeploy.yml
     with:
       # REGION: ${{ env.REGION }}
