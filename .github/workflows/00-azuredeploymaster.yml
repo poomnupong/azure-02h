@@ -35,7 +35,7 @@ jobs:
             done
             az bicep version
 
-  l1-call-workflow-mgmt:
+  l1-mgmt1:
     needs: [check-bicep]
     uses: ./.github/workflows/10-generalrgdeploy.yml
     with:
