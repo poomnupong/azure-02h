@@ -33,6 +33,7 @@ jobs:
               # az group create --name "${{ env.PREFIX }}-${{ env.BRANCH }}-${BASENAME}-${{ env.REGION }}-rg" --location ${{ env.REGION }}
               az bicep build --file $FILENAME
             done
+            az bicep version
 
   l1-call-workflow-mgmt:
     needs: [check-bicep]
