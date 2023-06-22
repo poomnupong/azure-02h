@@ -40,6 +40,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [check-bicep]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: call reusable workflow to deploy
         uses: ./.github/workflows/10-generalrgdeploy.yml
         with:
