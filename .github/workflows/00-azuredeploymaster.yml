@@ -36,14 +36,18 @@ jobs:
             az bicep version
 
   l1-mgmt1:
+    name: Deploy - l1-mgmt1
+    runs-on: ubuntu-latest
     needs: [check-bicep]
-    uses: ./.github/workflows/10-generalrgdeploy.yml
-    with:
-      REGION: ${{ github.env.REGION }}
-      PREFIX: $PREFIX
-      SUBSCRIPTIONID: $SUBSCRIPTIONID
-      TEMPLATEFILE: ./templates/mgmt1.bicep
-    secrets: inherit
+    steps:
+      - name: call reusable workflow to deploy
+        uses: ./.github/workflows/10-generalrgdeploy.yml
+        with:
+          REGION: ${{ env.REGION }}
+          PREFIX: ${{ env.PREFIX }}
+          SUBSCRIPTIONID: ${{ env.SUBSCRIPTIONID }}
+          TEMPLATEFILE: ./templates/mgmt1.bicep
+        secrets: inherit
 
 
 
