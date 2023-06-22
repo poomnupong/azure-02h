@@ -14,6 +14,14 @@ env:
   PREFIX: pn
 
 jobs:
+  prep-vars:
+    name: Prepare variable for reusable workflow
+    runs-on: ubuntu-latest
+    outputs:
+      REGION: ${{ env.REGION }}
+      PREFIX: ${{ env.PREFIX }}
+      SUBSCRIPTIONID: ${{ env.SUBSCRIPTIONID }}
+
   check-bicep:
     name: Build - check bicep
     runs-on: ubuntu-latest
@@ -37,11 +45,11 @@ jobs:
 
   l1-mgmt1:
     uses: ./.github/workflows/10-generalrgdeploy.yml
-    needs: [check-bicep]
+    needs: [check-bicep,prep-vars]
     with:
-      REGION: ${{ github.env.REGION }}
-      PREFIX: ${{ github.env.PREFIX }}
-      SUBSCRIPTIONID: ${{ github.env.SUBSCRIPTIONID }}
+      REGION: ${{ needs.prep-vars.outputs.REGION }}
+      PREFIX: ${{ needs.prep-vars.outputs.PREFIX }}
+      SUBSCRIPTIONID: ${{ needs.prep-vars.outputs.SUBSCRIPTIONID }}
       TEMPLATEFILE: ./templates/mgmt1.bicep
     secrets: inherit
 
