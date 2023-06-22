@@ -39,8 +39,8 @@ jobs:
     needs: [check-bicep]
     uses: ./.github/workflows/10-generalrgdeploy.yml
     with:
-      REGION: ${{ env.REGION }}
-      PREFIX: ${{ env.PREFIX }}
+      REGION: ${{ github.env.REGION }}
+      PREFIX: ${{ github.env.PREFIX }}
       SUBSCRIPTIONID: "abcfb30c-2430-42eb-9745-82bfee455fef"
       TEMPLATEFILE: ./templates/mgmt1.bicep
     secrets: inherit
