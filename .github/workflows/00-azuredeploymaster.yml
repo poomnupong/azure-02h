@@ -21,6 +21,8 @@ jobs:
       REGION: ${{ env.REGION }}
       PREFIX: ${{ env.PREFIX }}
       SUBSCRIPTIONID: ${{ env.SUBSCRIPTIONID }}
+    steps:
+      - run: echo "Preparing env variables"
 
   check-bicep:
     name: Build - check bicep
@@ -52,8 +54,6 @@ jobs:
       SUBSCRIPTIONID: ${{ needs.prep-vars.outputs.SUBSCRIPTIONID }}
       TEMPLATEFILE: ./templates/mgmt1.bicep
     secrets: inherit
-
-
 
 
   
