@@ -36,8 +36,8 @@ jobs:
             az bicep version
 
   l1-mgmt1:
-    needs: [check-bicep]
     uses: ./.github/workflows/10-generalrgdeploy.yml
+    needs: [check-bicep]
     with:
       REGION: ${{ env.REGION }}
       PREFIX: ${{ env.PREFIX }}
