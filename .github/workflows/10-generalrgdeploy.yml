@@ -44,5 +44,5 @@ jobs:
             az --version
             az bicep install
             az bicep version
-            echo "workflow call ${{ github.event.inputs.SUBSCRIPTIONID }}"
+            echo "workflow call ${{ inputs.SUBSCRIPTIONID }}"
             echo "Branch ${{ env.BRANCH }}"
