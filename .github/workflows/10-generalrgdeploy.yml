@@ -40,12 +40,12 @@ jobs:
         with:
           # azcliversion: 2.0.72
           inlineScript: |
-            az account set --subscription ${{ inputs.SUBSCRIPTIONID }}
-            az account show -otable
             echo "==============="
             BASENAME=$(basename ${{ inputs.TEMPLATEFILE}} .bicep)
             RGNAME="${{ inputs.PREFIX }}-${{ env.BRANCH }}-$BASENAME-${{ inputs.REGION }}-rg"
             echo $RGNAME
+            # az account set --subscription ${{ inputs.SUBSCRIPTIONID }}
+            # az account show -otable
             # az deployment group create --resource-group ${{ github.event.inputs.PREFIX }}-rg --template-file ${{ github.event.inputs.TEMPLATEFILE }} --parameters prefix=${{ github.event.inputs.PREFIX }} region=${{ github.event.inputs.REGION }} subscriptionId=${{ github.event.inputs.SUBSCRIPTIONID }}
             # az --version
             # az bicep install
