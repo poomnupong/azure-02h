@@ -1,0 +1,45 @@
+name: General RG Deploy
+
+on:
+  workflow_call:
+    inputs:
+      # REGION:
+      #   description: 'Region to deploy to'
+      #   required: true
+      #   type: string
+      # PREFIX:
+      #   description: 'Prefix to use for resource names'
+      #   required: true
+      #   type: string
+      SUBSCRIPTIONID:
+        description: 'Azure Subscription ID to deploy to'
+        required: true
+        type: string
+      TEMPLATEFILE:
+        description: 'Path to the bicep template'
+        required: true
+        type: string
+
+jobs:
+  deploy-rg:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set env.BRANCH 
+        run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # - name: Login via Azure CLI
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy RG
+        uses: azure/CLI@v1
+        with:
+          # azcliversion: 2.0.72
+          inlineScript: |
+            # az deployment group create --resource-group ${{ github.event.inputs.PREFIX }}-rg --template-file ${{ github.event.inputs.TEMPLATEFILE }} --parameters prefix=${{ github.event.inputs.PREFIX }} region=${{ github.event.inputs.REGION }} subscriptionId=${{ github.event.inputs.SUBSCRIPTIONID }}
+            echo "workflow call ${{ github.event.inputs.BRANCH }}"
+            echo "Branch ${{ env.BRANCH }}"

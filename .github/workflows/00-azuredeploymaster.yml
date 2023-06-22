@@ -1,4 +1,4 @@
-name: "Deploy"
+name: "Azure Deploy Master"
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 # required environment variables
 env:
-  SUBSCRIPTION_ID: abcfb30c-2430-42eb-9745-82bfee455fef
+  SUBSCRIPTIONID: abcfb30c-2430-42eb-9745-82bfee455fef
   REGION: southcentralus
   PREFIX: pn
 
@@ -34,6 +34,20 @@ jobs:
               az bicep build --file $FILENAME
             done
 
+  l1-call-workflow-mgmt:
+    uses: ./.github/workflows/10-generalrgdeploy.yml
+    with:
+      # BRANCH: ${{ env.BRANCH }}
+      # REGION: ${{ env.REGION }}
+      # PREFIX: ${{ env.PREFIX }}
+      SUBSCRIPTIONID: ${{ env.SUBSCRIPTIONID }}
+      TEMPLATEFILE: ./templates/mgmt1.bicep
+    secrets: inherit
+
+
+
+
+  
 # NOTE: reusable workflow with loops is either complex or not available
 # idea is to split into three layers: management, infra, and endpoints
 # a layer can depends on the previous layer
@@ -67,15 +81,15 @@ jobs:
   #           for FILE in ./templates/*.bicep; do
   #           echo $FILE
   #           # az group create --name "${{ env.PREFIX }}-${{ env.BRANCH }}-bootstrap1-${{ env.REGION }}-rg" --location ${{ env.REGION }}
-      # - name: Deploy resources
-      #   uses: Azure/arm-deploy@v1
-      #   with:
-      #     scope: subscription
-      #     subscriptionId: ${{ env.SUBSCRIPTION_ID }}
-      #     region: ${{ env.REGION }}
-      #     deploymentMode: Complete
-      #     template: ./templates/00maindeploy.bicep
-      #     parameters:
-      #       BRANCH=${{ env.BRANCH }}
-      #       REGION=${{ env.REGION }}
-      #       PREFIX=${{ env.PREFIX }}
+  #     - name: Deploy resources
+  #       uses: Azure/arm-deploy@v1
+  #       with:
+  #         scope: subscription
+  #         subscriptionId: ${{ env.SUBSCRIPTION_ID }}
+  #         region: ${{ env.REGION }}
+  #         deploymentMode: Complete
+  #         template: ./templates/00maindeploy.bicep
+  #         parameters:
+  #           BRANCH=${{ env.BRANCH }}
+  #           REGION=${{ env.REGION }}
+  #           PREFIX=${{ env.PREFIX }}
