@@ -45,5 +45,5 @@ jobs:
             az bicep install
             az bicep version
             echo "subscription ID = ${{ inputs.SUBSCRIPTIONID }}"
-            echo "template file = ${{ inputs.TEMPLATEFILE }}""
-            echo "Branch ${{ env.BRANCH }}"
+            echo "template file = ${{ inputs.TEMPLATEFILE }}"
+            echo "Branch  ${{ env.BRANCH }}"
