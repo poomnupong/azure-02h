@@ -41,7 +41,7 @@ jobs:
     with:
       REGION: ${{ github.env.REGION }}
       PREFIX: ${{ github.env.PREFIX }}
-      SUBSCRIPTIONID: "abcfb30c-2430-42eb-9745-82bfee455fef"
+      SUBSCRIPTIONID: "${{ github.env.SUBSCRIPTIONID }}"
       TEMPLATEFILE: ./templates/mgmt1.bicep
     secrets: inherit
 
