@@ -40,8 +40,8 @@ jobs:
     uses: ./.github/workflows/10-generalrgdeploy.yml
     with:
       REGION: ${{ github.env.REGION }}
-      PREFIX: ${{ github.env.PREFIX }}
-      SUBSCRIPTIONID: "${{ github.env.SUBSCRIPTIONID }}"
+      PREFIX: $PREFIX
+      SUBSCRIPTIONID: $SUBSCRIPTIONID
       TEMPLATEFILE: ./templates/mgmt1.bicep
     secrets: inherit
 
