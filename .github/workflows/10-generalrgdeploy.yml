@@ -46,5 +46,5 @@ jobs:
             az bicep version
             echo "subscription ID = ${{ inputs.SUBSCRIPTIONID }}"
             echo "template file = ${{ inputs.TEMPLATEFILE }}"
-            echo "region = ${{ env.REGION }}"
+            echo "region = ${{ github.env.REGION }}"
             echo "Branch  ${{ env.BRANCH }}"
