@@ -50,7 +50,7 @@ jobs:
             # az --version
             # az bicep install
             # az bicep version
-            echo "subscription ID = ${{ inputs.SUBSCRIPTIONID }}"
+            echo "subscription ID = ${{ github.env.SUBSCRIPTIONID }}"
             # echo "subscription string = abcfb30c-2430-42eb-9745-82bfee455fe"
             # echo "template file = ${{ inputs.TEMPLATEFILE }} - this one works"
             # echo "region = ${{ github.env.REGION }}"
