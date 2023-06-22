@@ -44,5 +44,6 @@ jobs:
             az --version
             az bicep install
             az bicep version
-            echo "workflow call ${{ inputs.SUBSCRIPTIONID }}"
+            echo "subscription ID = ${{ inputs.SUBSCRIPTIONID }}"
+            echo "template file = ${{ inputs.TEMPLATEFILE }}""
             echo "Branch ${{ env.BRANCH }}"
