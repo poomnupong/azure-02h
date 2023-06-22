@@ -37,10 +37,9 @@ jobs:
   l1-call-workflow-mgmt:
     uses: ./.github/workflows/10-generalrgdeploy.yml
     with:
-      # BRANCH: ${{ env.BRANCH }}
       # REGION: ${{ env.REGION }}
       # PREFIX: ${{ env.PREFIX }}
-      SUBSCRIPTIONID: ${{ env.SUBSCRIPTIONID }}
+      SUBSCRIPTIONID: $SUBSCRIPTIONID
       TEMPLATEFILE: ./templates/mgmt1.bicep
     secrets: inherit
 
