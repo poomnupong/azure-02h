@@ -47,7 +47,7 @@ jobs:
           PREFIX: ${{ env.PREFIX }}
           SUBSCRIPTIONID: ${{ env.SUBSCRIPTIONID }}
           TEMPLATEFILE: ./templates/mgmt1.bicep
-        secrets: inherit
+        # secrets: inherit
 
 
 
