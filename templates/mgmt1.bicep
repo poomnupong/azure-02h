@@ -3,9 +3,10 @@
 param PREFIX string = 'z'
 // param BRANCH string
 param REGION string = resourceGroup().location
+param APPNAME string = 'mgmt1'
 
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-07-01' = {
-  name: '${PREFIX}-${REGION}-vnet'
+  name: '${PREFIX}-${APPNAME}-${REGION}-vnet'
   location: REGION
   properties: {
     addressSpace: {
