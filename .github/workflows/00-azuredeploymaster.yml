@@ -12,6 +12,7 @@ env:
   SUBSCRIPTIONID: abcfb30c-2430-42eb-9745-82bfee455fef
   REGION: southcentralus
   PREFIX: pn
+  BRANCH: dev
 
 jobs:
   prep-vars:
@@ -22,8 +23,11 @@ jobs:
       REGION: ${{ env.REGION }}
       PREFIX: ${{ env.PREFIX }}
       SUBSCRIPTIONID: ${{ env.SUBSCRIPTIONID }}
+      BRANCH: ${{ env.BRANCH }}
     steps:
       - run: echo "Preparing env variables"
+      - name: Set env.BRANCH 
+        run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
 
   check-bicep:
     # check bicep files for errors
@@ -42,7 +46,7 @@ jobs:
               BASENAME=$(basename $FILENAME .bicep)
               echo $BASENAME
               # create a resource group for each bicep file
-              # az group create --name "${{ env.PREFIX }}-${{ env.BRANCH }}-${BASENAME}-${{ env.REGION }}-rg" --location ${{ env.REGION }}
+              # az group create --name "${{ env.PREFIX }}-${{ github.env.BRANCH }}-${BASENAME}-${{ env.REGION }}-rg" --location ${{ env.REGION }}
               az bicep build --file $FILENAME
             done
             az bicep version
@@ -53,6 +57,7 @@ jobs:
     uses: ./.github/workflows/10-generalrgdeploy.yml
     needs: [check-bicep,prep-vars]
     with:
+      BRANCH: ${{ needs.prep-vars.outputs.BRANCH }}
       REGION: ${{ needs.prep-vars.outputs.REGION }}
       PREFIX: ${{ needs.prep-vars.outputs.PREFIX }}
       SUBSCRIPTIONID: ${{ needs.prep-vars.outputs.SUBSCRIPTIONID }}

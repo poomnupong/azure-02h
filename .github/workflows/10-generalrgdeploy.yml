@@ -3,6 +3,10 @@ name: General RG Deploy
 on:
   workflow_call:
     inputs:
+      BRANCH:
+        description: 'Branch to deploy to'
+        required: true
+        type: string
       REGION:
         description: 'Region to deploy to'
         required: true
@@ -42,7 +46,7 @@ jobs:
           inlineScript: |
             echo "==============="
             BASENAME=$(basename ${{ inputs.TEMPLATEFILE}} .bicep)
-            RGNAME="${{ inputs.PREFIX }}-${{ env.BRANCH }}-$BASENAME-${{ inputs.REGION }}-rg"
+            RGNAME="${{ inputs.PREFIX }}-${{ inputs.BRANCH }}-$BASENAME-${{ inputs.REGION }}-rg"
             echo $RGNAME
             echo "subscription ID = ${{ inputs.SUBSCRIPTIONID }}"
             # az account set --subscription ${{ inputs.SUBSCRIPTIONID }}
@@ -53,4 +57,4 @@ jobs:
             # az bicep version
             # echo "template file = ${{ inputs.TEMPLATEFILE }} - this one works"
             # echo "region = ${{ github.env.REGION }}"
-            # echo "Branch = ${{ env.BRANCH }} - this one works"
+            # echo "Branch = ${{ inputs.BRANCH }} - this one works"
