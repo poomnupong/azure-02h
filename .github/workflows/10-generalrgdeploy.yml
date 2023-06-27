@@ -55,9 +55,10 @@ jobs:
             echo "debug: branch = ${{ inputs.BRANCH }}"
             echo "debug: BASENAME = $BASENAME"
             echo "==============="
-            # az account set --subscription ${{ inputs.SUBSCRIPTIONID }}
-            # az account show -otable
-            # az deployment group create --resource-group $RGNAME-rg --template-file ${{ github.event.inputs.TEMPLATEFILE }} --parameters prefix=${{ github.event.inputs.PREFIX }} region=${{ github.event.inputs.REGION }} subscriptionId=${{ github.event.inputs.SUBSCRIPTIONID }}
+            az account set --subscription ${{ inputs.SUBSCRIPTIONID }}
+            az account show -otable
+            az group create --name $RGNAME --location ${{ inputs.REGION }}
+            az deployment group create --resource-group $RGNAME --template-file ${{ github.event.inputs.TEMPLATEFILE }} --parameters prefix=${{ github.event.inputs.PREFIX }} region=${{ github.event.inputs.REGION }} subscriptionId=${{ github.event.inputs.SUBSCRIPTIONID }}
             # az --version
             # az bicep install
             # az bicep version
