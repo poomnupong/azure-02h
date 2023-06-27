@@ -58,7 +58,7 @@ jobs:
             az account set --subscription ${{ inputs.SUBSCRIPTIONID }}
             az account show -otable
             az group create --name $RGNAME --location ${{ inputs.REGION }}
-            az deployment group create --resource-group $RGNAME --template-file ${{ inputs.TEMPLATEFILE }} --parameters PREFIX=${{ inputs.PREFIX }} --mode complete
+            az deployment group create --resource-group $RGNAME --template-file ${{ inputs.TEMPLATEFILE }} --parameters PREFIX=${{ inputs.PREFIX }} APPNAME=$BASENAME --mode complete
             # az --version
             # az bicep install
             # az bicep version
