@@ -49,9 +49,15 @@ jobs:
             RGNAME="${{ inputs.PREFIX }}-${{ inputs.BRANCH }}-$BASENAME-${{ inputs.REGION }}-rg"
             echo "debug: RGNAME variable = $RGNAME"
             echo "debug: subscription ID = ${{ inputs.SUBSCRIPTIONID }}"
+            echo "debug: template file = ${{ inputs.TEMPLATEFILE }}"
+            echo "debug: region = ${{ inputs.REGION }}"
+            echo "debug: prefix = ${{ inputs.PREFIX }}"
+            echo "debug: branch = ${{ inputs.BRANCH }}"
+            echo "debug: BASENAME = $BASENAME"
+            echo "==============="
             # az account set --subscription ${{ inputs.SUBSCRIPTIONID }}
             # az account show -otable
-            az deployment group create --resource-group $RGNAME-rg --template-file ${{ github.event.inputs.TEMPLATEFILE }} --parameters prefix=${{ github.event.inputs.PREFIX }} region=${{ github.event.inputs.REGION }} subscriptionId=${{ github.event.inputs.SUBSCRIPTIONID }}
+            # az deployment group create --resource-group $RGNAME-rg --template-file ${{ github.event.inputs.TEMPLATEFILE }} --parameters prefix=${{ github.event.inputs.PREFIX }} region=${{ github.event.inputs.REGION }} subscriptionId=${{ github.event.inputs.SUBSCRIPTIONID }}
             # az --version
             # az bicep install
             # az bicep version
