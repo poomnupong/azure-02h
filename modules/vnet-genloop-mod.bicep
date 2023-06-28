@@ -21,7 +21,7 @@ param SNETS array = [
   {
     NAME: 'SNET3'
     ADDRESSPREFIX: '10.127.3.0/24'
-    NSGNAME: 'empty'
+    NSGNAME: 'nonsg' // use 'nonsg' because null fails
   }
 ]
 
@@ -36,7 +36,8 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
       name: SNET.NAME
       properties: {
         addressPrefix: SNET.ADDRESSPREFIX
-        networkSecurityGroup: SNET.NSGNAME != null ? {
+        networkSecurityGroup: SNET.NSGNAME != 'nonsg' ? {
+          // this is a hack as resourceId() returns a string with partial full capital letters
           id: toLower(resourceId('Microsoft.Network/networkSecurityGroups', SNET.NSGNAME))
         } : null
       }
@@ -44,7 +45,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
   }
 }
 
-resource nsg 'Microsoft.Network/networkSecurityGroups@2022-11-01' = [for SNET in SNETS: if (SNET.NSGNAME != null) {
+resource nsgs 'Microsoft.Network/networkSecurityGroups@2022-11-01' = [for SNET in SNETS: if (SNET.NSGNAME != 'nonsg') {
   name: SNET.NSGNAME
   location: REGION
   properties: {
