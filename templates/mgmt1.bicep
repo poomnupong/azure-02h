@@ -1,7 +1,6 @@
 // management resource group
 
 param PREFIX string = 'z'
-// param BRANCH string
 param REGION string = resourceGroup().location
 param APPNAME string
 
@@ -11,22 +10,38 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-07-01' = {
   properties: {
     addressSpace: {
       addressPrefixes: [
-        '10.2.0.0/24'
+        '10.1.0.0/24'
       ]
     }
     subnets: [
       {
-        name: '${PREFIX}-${APPNAME}-${REGION}-snet1'
+        name: 'general1-snet'
         properties: {
-          addressPrefix: '10.2.0.0/27'
-        }
-      }
-      {
-        name: '${PREFIX}-${APPNAME}-${REGION}-snet2'
-        properties: {
-          addressPrefix: '10.2.0.32/27'
+          addressPrefix: '10.1.0.0/27'
         }
       }
     ]
+  }
+}
+
+// storage account
+
+resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
+  ame: '${PREFIX}stg${formatDateTime(utcNow(), 'yyyyMMdd')}abc' // Adds the current date in YYYYMMDD format to the storage account name
+  location: REGION
+  properties: {
+    kind: 'StorageV2'
+    sku: {
+      name: 'Standard_LRS'
+    }
+    accessTier: 'Hot'
+    minimumTlsVersion: 'TLS1_2'
+    allowBlobPublicAccess: false
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Deny'
+      ipRules: []
+      virtualNetworkRules: []
+    }
   }
 }

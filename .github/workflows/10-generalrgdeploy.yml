@@ -53,7 +53,7 @@ jobs:
             echo "debug: region = ${{ inputs.REGION }}"
             echo "debug: prefix = ${{ inputs.PREFIX }}"
             echo "debug: branch = ${{ inputs.BRANCH }}"
-            echo "debug: BASENAME = $BASENAME"
+            echo "debug: BASENAME = $BASENAME" # use basename as APPNAME parameter
             echo "==============="
             az account set --subscription ${{ inputs.SUBSCRIPTIONID }}
             az account show -otable
