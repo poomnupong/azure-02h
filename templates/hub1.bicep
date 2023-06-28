@@ -21,27 +21,27 @@ module vnet1 '../modules/vnet-genloop-mod.bicep' = {
       }
       {
         NAME: 'nvaoutside-snet'
-        ADDRESSPREFIX: '10.1.0.32/28'
+        ADDRESSPREFIX: '10.1.1.32/28'
         NSGNAME: 'nvaoutside-snet-nsg'
       }
       {
         NAME: 'nvainside-snet'
-        ADDRESSPREFIX: '10.1.0.48/28'
+        ADDRESSPREFIX: '10.1.1.48/28'
         NSGNAME: 'nvainside-snet-nsg'
       }
       {
         NAME: 'AzureFirewallSubnet'
-        ADDRESSPREFIX: '10.1.0.128/26'
+        ADDRESSPREFIX: '10.1.1.128/26'
         NSGNAME: 'nonsg'
       }
       {
         NAME: 'RouteServerSubnet'
-        ADDRESSPREFIX: '10.1.0.192/27'
+        ADDRESSPREFIX: '10.1.1.192/27'
         NSGNAME: 'nonsg'
       }
       {
         NAME: 'GatewaySubnet'
-        ADDRESSPREFIX: '10.1.0.224/27'
+        ADDRESSPREFIX: '10.1.1.224/27'
         NSGNAME: 'nonsg'
       }
     ]
