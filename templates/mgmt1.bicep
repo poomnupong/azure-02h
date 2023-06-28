@@ -35,9 +35,7 @@ resource vnet1 'Microsoft.Network/virtualNetworks@2022-11-01' = {
 module vnet2 '../modules/vnet-genloop-mod.bicep' = {
   name: 'vnet2'
   params: {
-    PREFIX: PREFIX
     REGION: REGION
-    APPNAME: APPNAME
     VNETNAME: '${PREFIX}-${APPNAME}-${REGION}-vnet2'
     VNETADDRESSSPACE: [
       '10.1.0.0/24'

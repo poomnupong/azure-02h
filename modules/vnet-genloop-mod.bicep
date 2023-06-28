@@ -1,9 +1,8 @@
 // bicep module to create a VNET and subnet with separate NSG for each
 
 param REGION string = resourceGroup().location
-param PREFIX string = 'z'
-param APPNAME string = 'zapp'
 
+// here are example for parameters
 param VNETNAME string = 'VNET1'
 param VNETADDRESSSPACE array = [
   '10.127.0.0/16'
