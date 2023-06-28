@@ -21,7 +21,7 @@ param SNETS array = [
   {
     NAME: 'SNET3'
     ADDRESSPREFIX: '10.127.3.0/24'
-    NSGNAME: null
+    NSGNAME: 'empty'
   }
 ]
 
@@ -36,16 +36,16 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
       name: SNET.NAME
       properties: {
         addressPrefix: SNET.ADDRESSPREFIX
-        networkSecurityGroup: SNET.NSGNAME != null ? {
-          id: resourceId('Microsoft.Network/networkSecurityGroups@2022-11-01', SNET.NSGNAME)
-        } : {}
+        networkSecurityGroup: SNET.NSGNAME != 'empty' ? {
+          id: resourceId('Microsoft.Network/networkSecurityGroups', SNET.NSGNAME)
+        } : null
       }
     }]
   }
 }
 
-resource nsg 'Microsoft.Network/networkSecurityGroups@2022-11-01' = [for SNET in SNETS: if (SNET.NSGNAME != null) {
-  name: '${SNET.NSGNAME}-nsg'
+resource nsg 'Microsoft.Network/networkSecurityGroups@2022-11-01' = [for SNET in SNETS: if (SNET.NSGNAME != 'empty') {
+  name: SNET.NSGNAME
   location: REGION
   properties: {
     securityRules: [

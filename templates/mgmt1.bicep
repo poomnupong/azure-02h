@@ -53,8 +53,8 @@ module vnet2 '../modules/vnet-genloop-mod.bicep' = {
       }
       {
         NAME: 'GatewaySubnet'
-        ADDRESSPREFIX: '10.1.0.192/27'
-        NSGNAME: null
+        ADDRESSPREFIX: '10.1.0.128/27'
+        NSGNAME: 'empty'
       }
     ]
   }
