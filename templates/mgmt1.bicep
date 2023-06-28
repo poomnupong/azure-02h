@@ -2,41 +2,14 @@
 
 param PREFIX string = 'z'
 param REGION string = resourceGroup().location
-param APPNAME string = 'zapp'
+param APPNAME string = 'zapp' // normally derived from bicep file name in reusable workflow
 
-// virtual network for management
-resource vnet1 'Microsoft.Network/virtualNetworks@2022-11-01' = {
-  name: '${PREFIX}-${APPNAME}-${REGION}-vnet'
-  location: REGION
-  properties: {
-    addressSpace: {
-      addressPrefixes: [
-        '10.1.0.0/24'
-      ]
-    }
-    subnets: [
-      {
-        name: 'general1-snet'
-        properties: {
-          addressPrefix: '10.1.0.0/27'
-        }
-      }
-      {
-        name: 'general2-snet'
-        properties: {
-          addressPrefix: '10.1.0.32/27'
-        }
-      }
-    ]
-  }
-}
-
-// calling module for creating vnet
-module vnet2 '../modules/vnet-genloop-mod.bicep' = {
-  name: 'vnet2'
+// vnet for management
+module vnet1 '../modules/vnet-genloop-mod.bicep' = {
+  name: 'vnet1'
   params: {
     REGION: REGION
-    VNETNAME: '${PREFIX}-${APPNAME}-${REGION}-vnet2'
+    VNETNAME: '${PREFIX}-${APPNAME}-${REGION}-vnet'
     VNETADDRESSSPACE: [
       '10.1.0.0/24'
     ]
@@ -45,16 +18,6 @@ module vnet2 '../modules/vnet-genloop-mod.bicep' = {
         NAME: 'general1-snet'
         ADDRESSPREFIX: '10.1.0.0/27'
         NSGNAME: 'general1-snet-nsg'
-      }
-      {
-        NAME: 'general2-snet'
-        ADDRESSPREFIX: '10.1.0.32/27'
-        NSGNAME: 'general2-snet-nsg'
-      }
-      {
-        NAME: 'GatewaySubnet'
-        ADDRESSPREFIX: '10.1.0.128/27'
-        NSGNAME: 'nonsg'
       }
     ]
   }

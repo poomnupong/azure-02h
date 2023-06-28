@@ -64,6 +64,18 @@ jobs:
       TEMPLATEFILE: ./templates/mgmt1.bicep
     secrets: inherit
 
+  # deploy hub vnet
+  l1-hub1:
+    uses: ./.github/workflows/10-generalrgdeploy.yml
+    needs: [check-bicep,prep-vars]
+    with:
+      BRANCH: ${{ needs.prep-vars.outputs.BRANCH }}
+      REGION: ${{ needs.prep-vars.outputs.REGION }}
+      PREFIX: ${{ needs.prep-vars.outputs.PREFIX }}
+      SUBSCRIPTIONID: ${{ needs.prep-vars.outputs.SUBSCRIPTIONID }}
+      TEMPLATEFILE: ./templates/hub1.bicep
+    secrets: inherit
+
 
   
 # NOTE: reusable workflow with loops is either complex or not available

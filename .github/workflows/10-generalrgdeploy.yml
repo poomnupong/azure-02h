@@ -62,6 +62,3 @@ jobs:
             # az --version
             # az bicep install
             # az bicep version
-            # echo "template file = ${{ inputs.TEMPLATEFILE }} - this one works"
-            # echo "region = ${{ github.env.REGION }}"
-            # echo "Branch = ${{ inputs.BRANCH }} - this one works"
