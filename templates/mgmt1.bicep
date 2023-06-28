@@ -27,7 +27,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-07-01' = {
 // storage account
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
-  ame: '${PREFIX}stg${formatDateTime(utcNow(), 'yyyyMMdd')}abc' // Adds the current date in YYYYMMDD format to the storage account name
+  name: '${PREFIX}stg${uniqueString(resourceGroup().id, 'storageAccount')}abc' // Adds the current date in YYYYMMDD format to the storage account name
   location: REGION
   properties: {
     kind: 'StorageV2'

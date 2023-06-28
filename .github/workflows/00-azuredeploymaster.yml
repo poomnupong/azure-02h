@@ -51,7 +51,7 @@ jobs:
             done
             az bicep version
 
-  # start deploying each template per job
+  #=== begin layer 1 template === start deploying each template per job
   # deploy management RG
   l1-mgmt1:
     uses: ./.github/workflows/10-generalrgdeploy.yml
