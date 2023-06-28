@@ -36,7 +36,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
       name: SNET.NAME
       properties: {
         addressPrefix: SNET.ADDRESSPREFIX
-        networkSecurityGroup: SNET.NSGNAME != 'empty' ? {
+        networkSecurityGroup: SNET.NSGNAME != null ? {
           id: toLower(resourceId('Microsoft.Network/networkSecurityGroups', SNET.NSGNAME))
         } : null
       }
@@ -44,7 +44,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
   }
 }
 
-resource nsg 'Microsoft.Network/networkSecurityGroups@2022-11-01' = [for SNET in SNETS: if (SNET.NSGNAME != 'empty') {
+resource nsg 'Microsoft.Network/networkSecurityGroups@2022-11-01' = [for SNET in SNETS: if (SNET.NSGNAME != null) {
   name: SNET.NSGNAME
   location: REGION
   properties: {
