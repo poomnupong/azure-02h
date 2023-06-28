@@ -5,7 +5,7 @@ param REGION string = resourceGroup().location
 param APPNAME string
 
 // virtual network for management
-resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-07-01' = {
+resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-11-01' = {
   name: '${PREFIX}-${APPNAME}-${REGION}-vnet'
   location: REGION
   properties: {
@@ -25,13 +25,59 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-07-01' = {
   }
 }
 
+// NSG for management vnet
+
+resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2022-11-01' = {
+  name: '${PREFIX}-${APPNAME}-${REGION}-vnet-nsg'
+  location: REGION
+  properties: {
+    securityRules: [
+      {
+        name: 'nsgRule'
+        properties: {
+          description: 'description'
+          protocol: 'Tcp'
+          sourcePortRange: '*'
+          destinationPortRange: '*'
+          sourceAddressPrefix: '*'
+          destinationAddressPrefix: '*'
+          access: 'Allow'
+          priority: 100
+          direction: 'Inbound'
+        }
+      }
+    ]
+  }
+}
+
 // storage account
-resource storageaccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+resource storageaccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: '${PREFIX}${uniqueString(resourceGroup().id, 'abc')}'
   location: REGION
   kind: 'StorageV2'
   sku: {
     name: 'Standard_LRS'
+  }
+  properties: {
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Deny'
+      ipRules: []
+      virtualNetworkRules: []
+    }
+    supportsHttpsTrafficOnly: true
+    encryption: {
+      services: {
+        file: {
+          enabled: true
+        }
+        blob: {
+          enabled: true
+        }
+      }
+      keySource: 'Microsoft.Storage'
+    }
+    accessTier: 'Hot'
   }
 }
 
@@ -46,7 +92,7 @@ resource loganalyticsworkspace 'Microsoft.OperationalInsights/workspaces@2022-10
 
 // key vault
 resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' = {
-  name: '${PREFIX}-${APPNAME}-${REGION}-kv'
+  name: '${PREFIX}${uniqueString(resourceGroup().id, 'abc')}'
   location: REGION
   properties: {
     enabledForDeployment: true
