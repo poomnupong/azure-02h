@@ -4,6 +4,8 @@ param PREFIX string = 'z'
 param REGION string = resourceGroup().location
 param APPNAME string = 'zapp' // normally derived from bicep file name in reusable workflow
 
+param ISDEPLOYVM1 bool = false
+
 // vnet for hub
 module vnet1 '../modules/vnet-genloop-mod.bicep' = {
   name: 'vnet1'
@@ -49,13 +51,12 @@ module vnet1 '../modules/vnet-genloop-mod.bicep' = {
 }
 
 // test vm in hub
-module vm1 '../modules/vm-linux-mod.bicep' = {
+module vm1 '../modules/vm-linux-mod.bicep' = if (ISDEPLOYVM1) {
   name: 'vm1'
-  dependsOn: [
-    vnet1
-  ]
+  dependsOn: [ vnet1 ]
   params: {
     REGION: REGION
+    // hardcoded index of subnet, not ideal but use this until we have a way to extract subnet ID by name
     SUBNETID: vnet1.outputs.vnet.properties.subnets[0].id
     VMNAME: 'test-vm1'
     VMSIZE: 'Standard_D4s_v3'
