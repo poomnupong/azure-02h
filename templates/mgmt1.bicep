@@ -2,7 +2,7 @@
 
 param PREFIX string = 'z'
 param REGION string = resourceGroup().location
-param APPNAME string
+param APPNAME string = 'zapp'
 
 // virtual network for management
 resource vnet1 'Microsoft.Network/virtualNetworks@2022-11-01' = {
@@ -21,15 +21,44 @@ resource vnet1 'Microsoft.Network/virtualNetworks@2022-11-01' = {
           addressPrefix: '10.1.0.0/27'
         }
       }
+      {
+        name: 'general2-snet'
+        properties: {
+          addressPrefix: '10.1.0.32/27'
+        }
+      }
     ]
   }
 }
 
-// NSG for management vnet
-module nsgloop '../modules/nsg-stdallsnet-mod.bicep' = {
-  name: 'nsgloop'
+// calling module for creating vnet
+module vnet2 '../modules/vnet-genloop-mod.bicep' = {
+  name: 'vnet2'
   params: {
-    SUBNETS: vnet1.properties.subnets
+    PREFIX: PREFIX
+    REGION: REGION
+    APPNAME: APPNAME
+    VNETNAME: '${PREFIX}-${APPNAME}-${REGION}-vnet2'
+    VNETADDRESSSPACE: [
+      '10.1.0.0/24'
+    ]
+    SNETS: [
+      {
+        NAME: 'general1-snet'
+        ADDRESSPREFIX: '10.1.0.0/27'
+        NSGNAME: 'general1-snet-nsg'
+      }
+      {
+        NAME: 'general2-snet'
+        ADDRESSPREFIX: '10.1.0.32/27'
+        NSGNAME: 'general2-snet-nsg'
+      }
+      {
+        NAME: 'GatewaySubnet'
+        ADDRESSPREFIX: '10.1.0.192/27'
+        NSGNAME: null
+      }
+    ]
   }
 }
 

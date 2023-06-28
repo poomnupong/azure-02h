@@ -2,10 +2,12 @@
 // takes the SUBNETS as a parameter.
 
 param SUBNETS array
+param VNET object
 
-resource nsgs 'Microsoft.Network/networkSecurityGroups@2022-11-01' = [for subnet in SUBNETS: {
-  name: '${subnet.name}-nsg'
-  location: subnet.location
+// create an empty NSG for each subnet
+resource nsgs 'Microsoft.Network/networkSecurityGroups@2022-11-01' = [for SUBNET in VNET.properties.SUBNETS: {
+  name: '${SUBNET.name}-nsg'
+  location: SUBNET.location
   properties: {
     securityRules: []
   }
