@@ -47,3 +47,20 @@ module vnet1 '../modules/vnet-genloop-mod.bicep' = {
     ]
   }
 }
+
+// test vm in hub
+module vm1 '../modules/vm-linux-mod.bicep' = {
+  name: 'vm1'
+  dependsOn: [
+    vnet1
+  ]
+  params: {
+    REGION: REGION
+    SUBNETID: vnet1.outputs.vnet.properties.subnets[0].id
+    VMNAME: 'test-vm1'
+    VMSIZE: 'Standard_D4s_v3'
+    VMADMINUSERNAME: 'azureuser'
+    VMADMINPASSWORDORKEY: 'P@ssw0rd1234!'
+    VMAUTHTYPE: 'password'
+  }
+}

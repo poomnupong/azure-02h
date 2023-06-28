@@ -66,3 +66,6 @@ resource nsgs 'Microsoft.Network/networkSecurityGroups@2022-11-01' = [for SNET i
     ]
   }
 }]
+
+// output vnet object
+output vnet object = vnet

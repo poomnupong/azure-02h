@@ -1,5 +1,6 @@
 // bicep module to create an empty NSG for every subnet in a given VNET.
 // takes the SUBNETS as a parameter.
+// *** still in draff ***
 
 param SUBNETS array
 param VNET object
