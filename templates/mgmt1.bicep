@@ -5,7 +5,7 @@ param REGION string = resourceGroup().location
 param APPNAME string
 
 // virtual network for management
-resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-11-01' = {
+resource vnet1 'Microsoft.Network/virtualNetworks@2022-11-01' = {
   name: '${PREFIX}-${APPNAME}-${REGION}-vnet'
   location: REGION
   properties: {
@@ -26,27 +26,10 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-11-01' = {
 }
 
 // NSG for management vnet
-
-resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2022-11-01' = {
-  name: '${PREFIX}-${APPNAME}-${REGION}-vnet-nsg'
-  location: REGION
-  properties: {
-    securityRules: [
-      {
-        name: 'nsgRule'
-        properties: {
-          description: 'description'
-          protocol: 'Tcp'
-          sourcePortRange: '*'
-          destinationPortRange: '*'
-          sourceAddressPrefix: '*'
-          destinationAddressPrefix: '*'
-          access: 'Allow'
-          priority: 100
-          direction: 'Inbound'
-        }
-      }
-    ]
+module nsgloop '../modules/nsg-stdallsnet-mod.bicep' = {
+  name: 'nsgloop'
+  params: {
+    SUBNETS: vnet1.properties.subnets
   }
 }
 
