@@ -37,7 +37,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
       properties: {
         addressPrefix: SNET.ADDRESSPREFIX
         networkSecurityGroup: SNET.NSGNAME != 'empty' ? {
-          id: resourceId('Microsoft.Network/networkSecurityGroups', SNET.NSGNAME)
+          id: toLower(resourceId('Microsoft.Network/networkSecurityGroups', SNET.NSGNAME))
         } : null
       }
     }]
