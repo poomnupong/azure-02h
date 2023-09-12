@@ -1,3 +1,5 @@
+# reusable workflow to create a resource group and deploy a bicep template to it
+# require inputs from the workflow that calls this workflow
 name: General RG Deploy
 
 on:
