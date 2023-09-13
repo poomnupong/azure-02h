@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Set env.BRANCH 
         run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Build bicep and check for errors
         uses: Azure/CLI@v1
         with:
@@ -99,7 +99,7 @@ jobs:
   #     # get set BRANCH variable with branch name to be used in resource naming
   #     - name: Set env.BRANCH 
   #       run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
-  #     - uses: actions/checkout@v2
+  #     - uses: actions/checkout@v4
   #     - uses: azure/login@v1
   #       with:
   #         creds: ${{ secrets.AZURE_CREDENTIALS }}
