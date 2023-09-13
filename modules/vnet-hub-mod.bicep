@@ -15,7 +15,23 @@ param ISDEPLOYGATEWAYEXR bool = false
 param ISDEPLOYGATEWAYBOOL bool = false
 param ISDEPLOYAZFW bool = false
 
-// use parseCidr function to determine if VNETADDRPREFIX is larger than /24
+param SNETS array = [
+  {
+    NAME: 'general1-snet'
+    ADDRESSPREFIX: '10.127.1.0/24'
+    NSGNAME: 'SNET1-nsg'
+  }
+  {
+    NAME: 'SNET2'
+    ADDRESSPREFIX: '10.127.2.0/24'
+    NSGNAME: 'SNET2-nsg'
+  }
+  {
+    NAME: 'SNET3'
+    ADDRESSPREFIX: '10.127.3.0/24'
+    NSGNAME: 'nonsg' // use 'nonsg' because null fails
+  }
+]
 
 // vnet
 resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
@@ -33,7 +49,6 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
         properties: {
           addressPrefix: cidrSubnet(VNETADDRPREFIX, 27, 7)
         }
-    ]
     ]
   }
 }
