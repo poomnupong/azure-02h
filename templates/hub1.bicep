@@ -24,7 +24,7 @@ module vm1 '../modules/vm-linux-mod.bicep' = if (ISDEPLOYVM1) {
     REGION: REGION
     // hardcoded index of subnet, not ideal but use this until we have a way to extract subnet ID by name
     // SUBNETID: vnethub1.outputs.vnet.properties.subnets[0].id
-    SUBNETID: resourceId('Microsoft.Network/virtualNetworks/subnets', '${PREFIX}-${APPNAME}-${REGION}-vnet', 'general1-snet')
+    SUBNETID: resourceId('Microsoft.Network/virtualNetworks/subnets', vnethub1.outputs.vnet.name, 'general1-snet')
     VMNAME: 'test-vm1'
     VMSIZE: 'Standard_D4s_v3'
     VMADMINUSERNAME: 'azureuser'
