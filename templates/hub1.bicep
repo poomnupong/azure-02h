@@ -4,7 +4,7 @@ param PREFIX string = 'z'
 param REGION string = resourceGroup().location
 param APPNAME string = 'zapp' // normally derived from bicep file name in reusable workflow
 
-param ISDEPLOYVM1 bool = false
+var ISDEPLOYVM1 = true
 
 // use hubtype1
 module vnethub1 '../modules/vnet-hubtype1-mod.bicep' = {
