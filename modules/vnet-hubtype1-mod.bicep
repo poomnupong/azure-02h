@@ -8,10 +8,11 @@
 //   services: ISDEPLOYGATEWAYVPN or _EXR, ISDEPLOYFIREWALL
 //   arbitrary subnets: SNETNAME, SNETADDRPREFIX
 
-// parameter
+// parameters
+param REGION string = resourceGroup().location
+
 param VNETNAME string = 'tmp-testdefault-vnet'
 param VNETADDRPREFIX string = '10.255.255.0/24'
-param LOCATION string = 'southcentralus'
 param ISDEPLOYGATEWAYVPN bool = false
 param ISDEPLOYGATEWAYEXR bool = false
 param ISDEPLOYGATEWAYBOOL bool = false
@@ -22,7 +23,7 @@ module vnet1 './vnet-genloop-mod.bicep' = {
   name: 'vnet1'
   params: {
     REGION: REGION
-    VNETNAME: '${PREFIX}-${APPNAME}-${REGION}-vnet'
+    VNETNAME: VNETNAME
     VNETADDRESSSPACE: [
       VNETADDRPREFIX
     ]
@@ -46,11 +47,6 @@ module vnet1 './vnet-genloop-mod.bicep' = {
         NAME: 'nvainside-snet'
         ADDRESSPREFIX: cidrSubnet(VNETADDRPREFIX, 28, 3)
         NSGNAME: 'nvainside-snet-nsg'
-      }
-      {
-        NAME: 'AzureFirewallSubnet'
-        ADDRESSPREFIX: cidrSubnet(VNETADDRPREFIX, 28, 3)
-        NSGNAME: 'nonsg'
       }
       {
         NAME: 'AzureFirewallSubnet'
