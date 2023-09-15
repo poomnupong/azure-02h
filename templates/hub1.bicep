@@ -7,9 +7,13 @@ param APPNAME string = 'zapp' // normally derived from bicep file name in reusab
 param ISDEPLOYVM1 bool = false
 
 // use hubtype1
-module vnet-hub1 '../modules/vnet-hubtype1-mod.bicep' = {
-VNETNAME: '${PREFIX}-${APPNAME}-${REGION}-vnet'
-VNETADDRESSPREFIX: '10.1.1.0/24'
+module vnethub1 '../modules/vnet-hubtype1-mod.bicep' = {
+  name: 'vnethub1'
+  params: {
+    REGION: REGION
+    VNETNAME: '${PREFIX}-${APPNAME}-${REGION}-vnet'
+    VNETADDRPREFIX: '10.1.1.0/24'
+  }
 }
 
 // vnet for hub
