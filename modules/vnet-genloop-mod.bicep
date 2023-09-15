@@ -39,7 +39,8 @@ resource vnet 'Microsoft.Network/virtualNetworks@2022-11-01' = {
         addressPrefix: SNET.ADDRESSPREFIX
         networkSecurityGroup: SNET.NSGNAME != 'nonsg' ? {
           // this is a hack as resourceId() returns a string with partial full capital letters
-          id: toLower(resourceId('Microsoft.Network/networkSecurityGroups', SNET.NSGNAME))
+          // id: toLower(resourceId('Microsoft.Network/networkSecurityGroups', SNET.NSGNAME))
+          id: resourceId('Microsoft.Network/networkSecurityGroups', toLower(SNET.NSGNAME))
           // 2023.06.28 - problem seems to go away. keeping the fix just in case.
           // id: resourceId('Microsoft.Network/networkSecurityGroups', SNET.NSGNAME)
         } : null
