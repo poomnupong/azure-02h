@@ -64,43 +64,43 @@ resource loganalyticsworkspace 'Microsoft.OperationalInsights/workspaces@2022-10
 }
 
 // key vault
-resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' = {
-  name: '${PREFIX}${uniqueString(resourceGroup().id, 'abc')}'
-  location: REGION
-  properties: {
-    enabledForDeployment: true
-    enabledForTemplateDeployment: true
-    enabledForDiskEncryption: true
-    tenantId: subscription().tenantId
-    accessPolicies: [
-      {
-        tenantId: subscription().tenantId
-        objectId: '00000000-0000-0000-0000-000000000000'
-        permissions: {
-          keys: [
-            'get'
-            'list'
-          ]
-          secrets: [
-            'list'
-            'get'
-          ]
-        }
-      }
-    ]
-    sku: {
-      name: 'standard'
-      family: 'A'
-    }
-    enableSoftDelete: false
-    // softDeleteRetentionInDays: 90
-    enablePurgeProtection: true
-    enableRbacAuthorization: true
-    networkAcls: {
-      bypass: 'AzureServices'
-      defaultAction: 'Deny'
-      ipRules: []
-      virtualNetworkRules: []
-    }
-  }
-}
+// resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' = {
+//   name: '${PREFIX}${uniqueString(resourceGroup().id, 'abc')}'
+//   location: REGION
+//   properties: {
+//     enabledForDeployment: true
+//     enabledForTemplateDeployment: true
+//     enabledForDiskEncryption: true
+//     tenantId: subscription().tenantId
+//     accessPolicies: [
+//       {
+//         tenantId: subscription().tenantId
+//         objectId: '00000000-0000-0000-0000-000000000000'
+//         permissions: {
+//           keys: [
+//             'get'
+//             'list'
+//           ]
+//           secrets: [
+//             'list'
+//             'get'
+//           ]
+//         }
+//       }
+//     ]
+//     sku: {
+//       name: 'standard'
+//       family: 'A'
+//     }
+//     enableSoftDelete: false
+//     // softDeleteRetentionInDays: 90
+//     enablePurgeProtection: true
+//     enableRbacAuthorization: true
+//     networkAcls: {
+//       bypass: 'AzureServices'
+//       defaultAction: 'Deny'
+//       ipRules: []
+//       virtualNetworkRules: []
+//     }
+//   }
+// }

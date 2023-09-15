@@ -1,4 +1,6 @@
-// generic vnet template
+// vnet template for generic hub
+// DECLARATIVE TEMPLATE
+// subnetted to support both NVA and Azure Firewall
 // featuring automated subnetting depends on enabled services
 // require minimum subnet size of /24
 // parameters:
@@ -15,40 +17,77 @@ param ISDEPLOYGATEWAYEXR bool = false
 param ISDEPLOYGATEWAYBOOL bool = false
 param ISDEPLOYAZFW bool = false
 
-param SNETS array = [
-  {
-    NAME: 'general1-snet'
-    ADDRESSPREFIX: '10.127.1.0/24'
-    NSGNAME: 'SNET1-nsg'
-  }
-  {
-    NAME: 'SNET2'
-    ADDRESSPREFIX: '10.127.2.0/24'
-    NSGNAME: 'SNET2-nsg'
-  }
-  {
-    NAME: 'SNET3'
-    ADDRESSPREFIX: '10.127.3.0/24'
-    NSGNAME: 'nonsg' // use 'nonsg' because null fails
-  }
-]
-
-// vnet
-resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
-  name: VNETNAME
-  location: LOCATION
-  properties: {
-    addressSpace: {
-      addressPrefixes: [
-        VNETADDRPREFIX
-      ]
-    }
-    subnets: [
+// vnet for hub
+module vnet1 './vnet-genloop-mod.bicep' = {
+  name: 'vnet1'
+  params: {
+    REGION: REGION
+    VNETNAME: '${PREFIX}-${APPNAME}-${REGION}-vnet'
+    VNETADDRESSSPACE: [
+      VNETADDRPREFIX
+    ]
+    SNETS: [
       {
-        name: 'GatewaySubnet'
-        properties: {
-          addressPrefix: cidrSubnet(VNETADDRPREFIX, 27, 7)
-        }
+        NAME: 'general1-snet'
+        ADDRESSPREFIX: cidrSubnet(VNETADDRPREFIX, 28, 0)
+        NSGNAME: 'general1-snet-nsg'
+      }
+      {
+        NAME: 'nvamgmt-snet'
+        ADDRESSPREFIX: cidrSubnet(VNETADDRPREFIX, 28, 1)
+        NSGNAME: 'nvamgmt-snet-nsg'
+      }
+      {
+        NAME: 'nvaoutside-snet'
+        ADDRESSPREFIX: cidrSubnet(VNETADDRPREFIX, 28, 2)
+        NSGNAME: 'nvaoutside-snet-nsg'
+      }
+      {
+        NAME: 'nvainside-snet'
+        ADDRESSPREFIX: cidrSubnet(VNETADDRPREFIX, 28, 3)
+        NSGNAME: 'nvainside-snet-nsg'
+      }
+      {
+        NAME: 'AzureFirewallSubnet'
+        ADDRESSPREFIX: cidrSubnet(VNETADDRPREFIX, 28, 3)
+        NSGNAME: 'nonsg'
+      }
+      {
+        NAME: 'AzureFirewallSubnet'
+        ADDRESSPREFIX: cidrSubnet(VNETADDRPREFIX, 26, 2)
+        NSGNAME: 'nonsg'
+      }
+      {
+        NAME: 'RouteServerSubnet'
+        ADDRESSPREFIX: cidrSubnet(VNETADDRPREFIX, 27, 6)
+        NSGNAME: 'nonsg'
+      }
+      {
+        NAME: 'GatewaySubnet'
+        ADDRESSPREFIX: cidrSubnet(VNETADDRPREFIX, 27, 7)
+        NSGNAME: 'nonsg'
+      }
     ]
   }
 }
+
+// vnet
+// resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
+//   name: VNETNAME
+//   location: LOCATION
+//   properties: {
+//     addressSpace: {
+//       addressPrefixes: [
+//         VNETADDRPREFIX
+//       ]
+//     }
+//     subnets: [
+//       {
+//         name: 'GatewaySubnet'
+//         properties: {
+//           addressPrefix: cidrSubnet(VNETADDRPREFIX, 27, 7)
+//         }
+//       }
+//     ]
+//   }
+// }

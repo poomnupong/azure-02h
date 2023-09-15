@@ -1,4 +1,5 @@
 // bicep module to create a VNET and subnet with separate NSG for each
+// DYNAMIC TEMPLATE
 
 param REGION string = resourceGroup().location
 
