@@ -3,7 +3,7 @@
 
 param REGION string = resourceGroup().location
 
-// here are example for parameters
+// default values are are example for parameters; can be deployed as-is for debugging
 param VNETNAME string = 'VNET1'
 param VNETADDRESSSPACE array = [
   '10.127.0.0/16'

@@ -10,16 +10,16 @@
 
 // parameters
 param REGION string = resourceGroup().location
-
 param VNETNAME string = 'tmp-testdefault-vnet'
 param VNETADDRPREFIX string = '10.255.255.0/24'
-param ISDEPLOYGATEWAYVPN bool = false
-param ISDEPLOYGATEWAYEXR bool = false
-param ISDEPLOYGATEWAYBOOL bool = false
-param ISDEPLOYAZFW bool = false
+// param ISDEPLOYGATEWAYVPN bool = false
+// param ISDEPLOYGATEWAYEXR bool = false
+// param ISDEPLOYGATEWAYBOOL bool = false
+// param ISDEPLOYAZFW bool = false
+// param ISDEPLOYNVACISCO bool = false
 
 // vnet for hub
-module vnet1 './vnet-genloop-mod.bicep' = {
+module vnethub './vnet-genloop-mod.bicep' = {
   name: 'vnet1'
   params: {
     REGION: REGION
@@ -66,6 +66,8 @@ module vnet1 './vnet-genloop-mod.bicep' = {
     ]
   }
 }
+
+output vnet object = vnethub.outputs.vnet
 
 // vnet
 // resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
