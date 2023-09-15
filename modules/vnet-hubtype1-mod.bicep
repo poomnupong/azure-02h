@@ -68,6 +68,7 @@ module vnethub './vnet-genloop-mod.bicep' = {
 }
 
 output vnet object = vnethub.outputs.vnet
+output vnetname string = vnethub.outputs.vnet.name
 
 // vnet
 // resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
