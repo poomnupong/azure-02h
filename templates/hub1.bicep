@@ -16,7 +16,7 @@ module vnethub1 '../modules/vnet-hubtype1-mod.bicep' = {
   }
 }
 
-// test vm in hub
+// test vm in huba
 module vm1 '../modules/vm-linux-mod.bicep' = if (ISDEPLOYVM1) {
   name: 'vm1'
   dependsOn: [ vnethub1 ]
